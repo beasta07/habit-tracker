@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+model User {
+  id           Int           @id @default(autoincrement())
+  name         String
+  email        String        @unique
+  password     String
+  sessions     Session[]
+  routineItems RoutineItem[]
+  tasks        Task[]
+  journals     Journal[]
+  createdAt    DateTime      @default(now())
+}
+
+model Session {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model RoutineItem {
+  id        Int      @id @default(autoincrement())
+  activity  String
+  time      String
+  duration  Int
+  order     Int
+  completed Boolean  @default(false)
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+enum Priority {
+  HIGH
+  MEDIUM
+  LOW
+}
+
+model Task {
+  id        Int      @id @default(autoincrement())
+  activity  String
+  priority  Priority
+  deadline  DateTime
+  completed Boolean  @default(false)
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Journal {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String
+  mood      Int
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
