@@ -46,7 +46,7 @@ enum Priority {
 
 model Task {
   id        Int      @id @default(autoincrement())
-  activity  String
+  title  String
   priority  Priority
   deadline  DateTime
   completed Boolean  @default(false)
