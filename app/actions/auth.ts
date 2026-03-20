@@ -60,7 +60,7 @@ export async function signUp(prevState:unknown, formData) {
       message: "Something went wrong. Please try again ",
     };
   }
-      redirect("/dashboard");
+      redirect("/");
 
 }
 export async function signIn(prevState, formData) {
@@ -110,7 +110,7 @@ export async function signIn(prevState, formData) {
       message: "Error during signing in",
     };
   }
-      redirect("/dashboard");
+      redirect("/");
 
 }
 export async function logout(){
