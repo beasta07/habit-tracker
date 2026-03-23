@@ -4,6 +4,8 @@ import { fetchTasks } from "@/app/actions/task";
 import { useQuery } from "@tanstack/react-query";
 
 export default function TasksPreview() {
+
+  
   const { data, isLoading, error } = useQuery({
     queryKey: ["tasks"],
     queryFn: async () => {
@@ -15,8 +17,10 @@ export default function TasksPreview() {
   });
 const filteredData = data?.filter(task => task.priority === 'HIGH')
   console.log(data, "TASKS IN DATA");
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading tasks</div>;
+if (isLoading) return <div className="text-zinc-500">Loading tasks...</div>
+if (error) return <div className="text-zinc-500">Error loading tasks</div>
+if (!data || data.length === 0) return <div className="text-zinc-500">No tasks yet</div>
+
   return (
     <div className="bg-white/3 border w-full border-white/8 rounded-2xl p-8 backdrop-blur-sm">
       {/* Header */}

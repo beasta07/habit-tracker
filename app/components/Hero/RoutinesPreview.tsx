@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export default function RoutinesPreview() {
   const { data, isLoading, error } = useQuery({
-    queryKey: ["routine"],
+    queryKey: ["routinePreview"],
     queryFn: async () => {
       const result = await fetchRoutines();
       if (!result.success) throw new Error(result.message);
@@ -13,6 +13,7 @@ export default function RoutinesPreview() {
 
     },
   });
+  const filteredData = data?.slice(0,3)
   console.log(data, "Routine data in clientside");
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading tasks</div>;
@@ -27,7 +28,7 @@ export default function RoutinesPreview() {
       {/* Routines List */}
       <div className="space-y-3">
         {/* Map through routines here */}
-        {data?.map((el) => (
+        {filteredData?.map((el) => (
           <div
             key={el.id}
             className="flex items-center gap-3 p-3 rounded-lg bg-white/2 border border-white/5 hover:bg-white/4 transition-colors"

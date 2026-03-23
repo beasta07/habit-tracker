@@ -5,25 +5,26 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
 model User {
   id           Int           @id @default(autoincrement())
   name         String
   email        String        @unique
   password     String
-  sessions     Session[]
-  routineItems RoutineItem[]
-  tasks        Task[]
-  journals     Journal[]
   createdAt    DateTime      @default(now())
+  journals     Journal[]
+  routineItems RoutineItem[]
+  sessions     Session[]
+  tasks        Task[]
 }
 
 model Session {
   id        Int      @id @default(autoincrement())
   userId    Int
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   token     String   @unique
   expiresAt DateTime
   createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model RoutineItem {
@@ -31,28 +32,22 @@ model RoutineItem {
   activity  String
   time      String
   duration  Int
-  order     Int
+  order     Int?
   completed Boolean  @default(false)
   userId    Int
-  user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
-}
-
-enum Priority {
-  HIGH
-  MEDIUM
-  LOW
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 model Task {
   id        Int      @id @default(autoincrement())
-  title  String
+  activity  String
   priority  Priority
   deadline  DateTime
   completed Boolean  @default(false)
   userId    Int
-  user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 model Journal {
@@ -61,6 +56,12 @@ model Journal {
   content   String
   mood      Int
   userId    Int
-  user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+enum Priority {
+  HIGH
+  MEDIUM
+  LOW
 }
