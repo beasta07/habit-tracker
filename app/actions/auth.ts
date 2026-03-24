@@ -6,11 +6,11 @@ import prisma from "@/lib/prisma";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export async function signUp(prevState:unknown, formData) {
+export async function signUp(prevState:unknown , formData:FormData ) {
   try {
-    const email = formData.get("email");
+    const email = formData.get("email") as string;
     const password = formData.get("password");
-    const hashedPassword = await hashPassword(password);
+    const hashedPassword = await hashPassword(password as string);
     if (!email || !hashedPassword) {
       return {
         success: false,
@@ -63,10 +63,10 @@ export async function signUp(prevState:unknown, formData) {
       redirect("/");
 
 }
-export async function signIn(prevState, formData) {
+export async function signIn(prevState:unknown , formData:FormData ) {
   try {
-    const email = formData.get("email");
-    const password = formData.get("password");
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
 
     const userExists = await prisma.user.findUnique({
       where: {
@@ -118,7 +118,7 @@ export async function logout(){
     const cookieStore = await cookies()
     const token = cookieStore.get('jwt_token')?.value
     
-    const payload=  await verifyToken(token)
+    const payload=  await verifyToken(token as string)
 
     if (!payload){
       return null 

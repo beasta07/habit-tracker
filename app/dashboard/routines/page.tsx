@@ -9,6 +9,7 @@ import {
 } from "@/app/actions/routines";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRef, useState } from "react";
+import { QUERY_KEYS } from "@/lib/queryKeys";
 
 export default function RoutinesPage() {
 const [selectedRoutine, setSelectedRoutine] = useState<{
@@ -25,7 +26,7 @@ const [selectedRoutine, setSelectedRoutine] = useState<{
   const formRef = useRef<HTMLFormElement>(null);
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["routines"],
+    queryKey: QUERY_KEYS.routines,
     queryFn: async () => {
       const result = await fetchRoutines();
       if (!result.success) throw new Error(result.message);
@@ -52,6 +53,9 @@ const [selectedRoutine, setSelectedRoutine] = useState<{
     mutationFn: deleteRoutines,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["routines"] });
+            formRef.current?.reset();
+      setSelectedRoutine(null)
+
     },
   });
 const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

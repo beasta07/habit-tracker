@@ -1,11 +1,12 @@
 "use client";
 
 import { fetchRoutines } from "@/app/actions/routines";
+import { QUERY_KEYS } from "@/lib/queryKeys";
 import { useQuery } from "@tanstack/react-query";
 
 export default function RoutinesPreview() {
   const { data, isLoading, error } = useQuery({
-    queryKey: ["routinePreview"],
+    queryKey: QUERY_KEYS.routines,
     queryFn: async () => {
       const result = await fetchRoutines();
       if (!result.success) throw new Error(result.message);
