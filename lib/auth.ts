@@ -1,3 +1,4 @@
+"use server"
 import bcrypt from "bcrypt";
 import { cookies } from "next/headers";
 import { verifyToken } from "./jwt";

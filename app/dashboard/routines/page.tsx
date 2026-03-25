@@ -9,7 +9,18 @@ import {
 } from "@/app/actions/routines";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRef, useState } from "react";
-import { QUERY_KEYS } from "@/lib/queryKeys";
+
+interface Routine{
+   id: number
+  activity: string
+  time: string
+  duration: number
+  order: number | null
+  completed: boolean
+  userId: number
+  createdAt: Date
+}
+
 
 export default function RoutinesPage() {
 const [selectedRoutine, setSelectedRoutine] = useState<{
@@ -26,7 +37,7 @@ const [selectedRoutine, setSelectedRoutine] = useState<{
   const formRef = useRef<HTMLFormElement>(null);
 
   const { data, isLoading, error } = useQuery({
-    queryKey: QUERY_KEYS.routines,
+    queryKey: ['routines'],
     queryFn: async () => {
       const result = await fetchRoutines();
       if (!result.success) throw new Error(result.message);
@@ -75,7 +86,7 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     const date = new Date(0, 0, 0, parseInt(hours), parseInt(minutes));
     return format(date, "h:mm a");
   };
-const handleEdit = (routine: NonNullable<typeof selectedRoutine>) => {    setSelectedRoutine(routine);
+const handleEdit = (routine: Routine) => {    setSelectedRoutine(routine);
     console.log(routine, "Routine after clicking on edit");
   };
 
@@ -94,10 +105,10 @@ const handleEdit = (routine: NonNullable<typeof selectedRoutine>) => {    setSel
           <div className="space-y-3">
             {isLoading && <div>Loading...</div>}
             {error && <div>Error loading routines</div>}
-            {data?.map((routine) => (
+            {data?.map((routine:Routine) => (
               <div
                 key={routine.id}
-                className="bg-white/3 border border-white/8 rounded-xl p-4 flex items-center justify-between hover:bg-white/[0.05] transition-colors"
+                className="bg-white/3 border border-white/8 rounded-xl p-4 flex items-center justify-between hover:bg-white/5 transition-colors"
               >
                 <div className="flex-1">
                   <p className="text-white font-medium">{routine.activity}</p>
@@ -147,7 +158,7 @@ const handleEdit = (routine: NonNullable<typeof selectedRoutine>) => {    setSel
                   defaultValue={selectedRoutine?.activity}
                   name="activity"
                   placeholder="e.g., Morning Routine"
-                  className="w-full px-4 py-3 bg-white/[0.05] border border-white/[0.08] rounded-lg text-white placeholder-zinc-600 text-sm focus:outline-none focus:border-indigo-500/50 focus:bg-white/[0.07] transition-all"
+                  className="w-full px-4 py-3 bg-white/5 border border-white/8 rounded-lg text-white placeholder-zinc-600 text-sm focus:outline-none focus:border-indigo-500/50 focus:bg-white/[0.07] transition-all"
                 />
               </div>
 

@@ -1,5 +1,5 @@
+"use server"
 import { SignJWT, jwtVerify } from 'jose'
-
 
 const JWT_SECRET= process.env.JWT_SECRET!;
 const secret = new TextEncoder().encode(JWT_SECRET)

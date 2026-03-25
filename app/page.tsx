@@ -3,6 +3,7 @@
 import Timer from "./components/Hero/Timer";
 import RoutinesPreview from "./components/Hero/RoutinesPreview";
 import TasksPreview from "./components/Hero/TasksPreview";
+import JournalPreview from "./components/Hero/JournalPreview";
 
 
 const page = () => {
@@ -14,7 +15,7 @@ const page = () => {
         <RoutinesPreview/>
         <TasksPreview/>
       </div>
-   
+       <JournalPreview/>
       </main>
     </section>
   );
