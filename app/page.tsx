@@ -8,9 +8,9 @@ import JournalPreview from "./components/Hero/JournalPreview";
 
 const page = () => {
   return (
-    <section className="bg-white/3 ">
-      <main className="px-20 my-20">
-      <div className="  flex  gap-10   py-5">
+    <section className=" ">
+      <main className="lg:px-20 px-4 ">
+      <div className="  flex lg:flex-row flex-col  gap-10   py-5">
         <Timer />
         <RoutinesPreview/>
         <TasksPreview/>

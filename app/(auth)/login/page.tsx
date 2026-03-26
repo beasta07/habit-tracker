@@ -46,7 +46,7 @@ export default function LoginPage() {
                 name="email"
                 placeholder="you@example.com"
                 required
-                className="w-full px-4 py-3 bg-white/[0.05] border border-white/[0.08] rounded-xl text-white placeholder-zinc-600 text-sm focus:outline-none focus:border-indigo-500/50 focus:bg-white/[0.07] transition-all"
+                className="w-full px-4 py-3 bg-white/5 border border-white/8 rounded-xl text-white placeholder-zinc-600 text-sm focus:outline-none focus:border-indigo-500/50 focus:bg-white/[0.07] transition-all"
               />
             </div>
 
@@ -60,7 +60,7 @@ export default function LoginPage() {
                 name="password"
                 placeholder="••••••••"
                 required
-                className="w-full px-4 py-3 bg-white/[0.05] border border-white/[0.08] rounded-xl text-white placeholder-zinc-600 text-sm focus:outline-none focus:border-indigo-500/50 focus:bg-white/[0.07] transition-all"
+                className="w-full px-4 py-3 bg-white/5 border border-white/8 rounded-xl text-white placeholder-zinc-600 text-sm focus:outline-none focus:border-indigo-500/50 focus:bg-white/[0.07] transition-all"
               />
             </div>
 

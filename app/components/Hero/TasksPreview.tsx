@@ -1,24 +1,32 @@
 "use client";
 
-import { fetchTasks } from "@/app/actions/task";
-import { useQuery } from "@tanstack/react-query";
+import { fetchTasks, toggleTasks } from "@/app/actions/task";
+import { queryClient } from "@/lib/queryClient";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import TaskRoutineSkeletonRow from "../skeletons/dashboard/TaskRoutineSkeletonRow";
+import Link from "next/link";
 
 export default function TasksPreview() {
 
   
-  const { data, isLoading, error } = useQuery({
+  const { data, isPending, error } = useQuery({
     queryKey: ["tasks"],
     queryFn: async () => {
   const result = await fetchTasks()
-  console.log('fetchTasks result:', result)  // See what you're getting
   if (!result.success) throw new Error(result.message)
   return result.tasks
 }
   });
-const filteredData = data?.filter(task => task.priority === 'HIGH')
-  console.log(data, "TASKS IN DATA");
-if (isLoading) return <div className="text-zinc-500">Loading tasks...</div>
+  
+  const {mutate:completeTask} = useMutation({
+    mutationFn: toggleTasks,
+    onSuccess:()=> {
+      queryClient.invalidateQueries({queryKey:['tasks']})}
+  })
+
+const filteredData = data?.filter(task => task.priority === 'HIGH' && task.completed === false)
 if (error) return <div className="text-zinc-500">Error loading tasks</div>
+if (isPending) return <TaskRoutineSkeletonRow title='Tasks' subtitle='Your to-dos'/>
 if (!data || data.length === 0) return <div className="text-zinc-500">No tasks yet</div>
 
   return (
@@ -40,6 +48,7 @@ if (!data || data.length === 0) return <div className="text-zinc-500">No tasks y
           >
             <div className="flex items-center gap-3 flex-1">
               <input
+                onClick={()=>completeTask(el.id)}
                 type="checkbox"
                 className="w-4 h-4 rounded accent-indigo-500"
               />
@@ -61,9 +70,11 @@ if (!data || data.length === 0) return <div className="text-zinc-500">No tasks y
       </div>
 
       {/* View All Link */}
-      <button className="w-full mt-6 py-2 text-indigo-400 hover:text-indigo-300 text-sm font-medium transition-colors">
+      <Link href='/dashboard/tasks'>
+      <button className="w-full mt-6 cursor-pointer py-2 text-indigo-400 hover:text-indigo-300 text-sm font-medium transition-colors">
         View all tasks →
       </button>
+      </Link>
     </div>
   );
 }

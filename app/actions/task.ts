@@ -147,3 +147,42 @@ export async function deleteTasks(id: number) {
     };
   }
 }
+export async function toggleTasks(id:number){
+  try{
+    const userId =await getUserId()
+    if(!userId){
+      return null
+    }
+    
+   const taskItem = await prisma.task.findUnique({
+    where:{
+      id
+    }
+   })
+  if (taskItem?.userId !== userId ){
+    return{
+      success:false,
+      message:"Not authorized"
+    }
+  }
+   await prisma.task.update({
+    where:
+    {id
+    },
+    data:{
+      completed:!taskItem.completed
+    }
+   })
+return { success: true, message: 'Task updated' }
+
+
+  }
+  catch(err){
+    console.log(err)
+    return{
+      success:false,
+      message:"Error toggling complete task"
+    }
+  }
+
+}

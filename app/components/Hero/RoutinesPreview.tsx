@@ -3,9 +3,11 @@
 import { fetchRoutines } from "@/app/actions/routines";
 import { QUERY_KEYS } from "@/lib/queryKeys";
 import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
+import TaskRoutineSkeletonRow from "../skeletons/dashboard/TaskRoutineSkeletonRow";
 
 export default function RoutinesPreview() {
-  const { data, isLoading, error } = useQuery({
+  const { data, isPending, error } = useQuery({
     queryKey: QUERY_KEYS.routines,
     queryFn: async () => {
       const result = await fetchRoutines();
@@ -13,11 +15,14 @@ export default function RoutinesPreview() {
       return result.routine;
 
     },
+    staleTime:0
   });
   const filteredData = data?.slice(0,3)
-  console.log(data, "Routine data in clientside");
-  if (isLoading) return <div>Loading...</div>;
+  if (isPending) return <TaskRoutineSkeletonRow title="Today's Routine" subtitle="Daily habits" />
+    if (!data || data.length === 0) return <div className="text-zinc-500">No Routines added </div>
+         
   if (error) return <div>Error loading tasks</div>;
+  
   return (
     <div className="bg-white/3 border border-white/8 rounded-2xl p-8 w-full backdrop-blur-sm">
       {/* Header */}
@@ -50,9 +55,11 @@ export default function RoutinesPreview() {
       </div>
 
       {/* View All Link */}
-      <button className="w-full mt-6 py-2 text-indigo-400 hover:text-indigo-300 text-sm font-medium transition-colors">
+      <Link href='/dashboard/routines'>
+      <button className="w-full cursor-pointer mt-6 py-2 text-indigo-400 hover:text-indigo-300 text-sm font-medium transition-colors">
         View all routines →
       </button>
+      </Link>
     </div>
   );
 }

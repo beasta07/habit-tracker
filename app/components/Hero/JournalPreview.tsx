@@ -3,7 +3,8 @@
 import { fetchJournals } from "@/app/actions/journal";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { format, getDate } from "date-fns";
+import { format } from "date-fns";
+import JournalPreviewSkeleton from "../skeletons/dashboard/JournalPreviewSkeleton";
 
 const MOODS = ["😔", "😕", "😐", "🙂", "😄"];
 type Journal = {
@@ -17,26 +18,27 @@ type Journal = {
 };
 export default function JournalPreview() {
   // TODO: useQuery for journals
-  const { data: journals } = useQuery({
+  const { data: journals , isPending,error } = useQuery({
     queryKey: ["journals"],
     queryFn: async () => {
       const result = await fetchJournals();
       if (!result?.success) {
         throw new Error(result?.message);
       }
-      console.log("Journals in Preview", result.journals);
       return result.journals;
     },
   });
-  // TODO: get today's entry — find journal where createdAt is today
-  // TODO: get last 3 entries for recent list
+
   const today = new Date().toDateString();
   const todayEntry = journals?.find(
     (journal: Journal) => new Date(journal.createdAt).toDateString() === today,
   );
-  const recentEntries = journals.slice(0,4)
+  const recentEntries = journals?.slice(0,3)
+  if (isPending) return <JournalPreviewSkeleton />
+  if (!journals || journals.length === 0) return <div className="text-zinc-500">No Journals yet</div>
+
   return (
-    <div className="bg-white/2 border border-white/[0.07] rounded-2xl p-8 grid grid-cols-2 gap-12">
+    <div className="bg-white/2 border border-white/[0.07] rounded-2xl p-8 grid lg:grid-cols-2 md:grid-cols-1 gap-12">
       {/* Left — check in */}
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
@@ -61,7 +63,6 @@ export default function JournalPreview() {
           className="mt-auto px-4 py-2 bg-indigo-500 hover:bg-indigo-400 text-white text-sm rounded-lg transition-colors w-fit"
         >
           {todayEntry ? "Edit today's entry" : "Write today's entry"}
-          {/* TODO: if todayEntry exists show "Edit today's entry" else "Write today's entry" */}
         </Link>
       </div>
 
@@ -71,7 +72,6 @@ export default function JournalPreview() {
           Recent entries
         </span>
 
-        {/* TODO: map last 3 journals here */}
         {/* Each entry: */}
         {recentEntries?.map((journal:Journal) => (
           <div

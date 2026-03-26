@@ -5,6 +5,7 @@ import "./globals.css";
 import StoreProvider from "./StoreProvider";
 import { QueryProvider } from "@/providers/QueryProvider";
 import Navbar from "./components/Navbar";
+import { Toaster } from 'react-hot-toast'
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +32,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+
       <StoreProvider>
         <QueryProvider>
         <Navbar/>
@@ -38,6 +40,7 @@ export default function RootLayout({
         </QueryProvider>
 
       </StoreProvider>
+      <Toaster position="top-right" />
       </body>
     </html>
   );

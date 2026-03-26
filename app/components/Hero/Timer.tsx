@@ -22,7 +22,7 @@ export default function Timer() {
 
 
   return (
-    <div className="bg-white/3 w-fit border border-white/8 rounded-2xl p-8 backdrop-blur-sm">
+    <div className="bg-white/3 lg:w-fit border border-white/8 rounded-2xl p-8 backdrop-blur-sm">
       <div className="mb-8">
         <h2 className="text-lg font-light text-white">Focus Timer</h2>
         <p className="text-zinc-500 text-sm mt-1">Pomodoro session</p>
@@ -47,13 +47,13 @@ export default function Timer() {
         <button
           onClick={() => dispatch(pauseTimer())}
           disabled={!isRunning}
-          className="px-6 py-2 bg-white/[0.05] border border-white/[0.08] hover:bg-white/[0.08] disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-medium rounded-lg transition-colors"
+          className="px-6 py-2 bg-white/5 border border-white/8 hover:bg-white/8 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-medium rounded-lg transition-colors"
         >
           Pause
         </button>
         <button
           onClick={() => dispatch(resetTimer())}
-          className="px-6 py-2 bg-white/[0.05] border border-white/[0.08] hover:bg-white/[0.08] text-white text-sm font-medium rounded-lg transition-colors"
+          className="px-6 py-2 bg-white/5 border border-white/8 hover:bg-white/8 text-white text-sm font-medium rounded-lg transition-colors"
         >
           Reset
         </button>

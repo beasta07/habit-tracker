@@ -9,40 +9,43 @@ import {
 } from "@/app/actions/routines";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRef, useState } from "react";
+import TaskRoutineSkeletonRow from "@/app/components/skeletons/dashboard/TaskRoutineSkeletonRow";
+import RoutineSkeleton from "@/app/components/skeletons/RoutineSkeleton";
+import toast from "react-hot-toast";
 
-interface Routine{
-   id: number
-  activity: string
-  time: string
-  duration: number
-  order: number | null
-  completed: boolean
-  userId: number
-  createdAt: Date
+interface Routine {
+  id: number;
+  activity: string;
+  time: string;
+  duration: number;
+  order: number | null;
+  completed: boolean;
+  userId: number;
+  createdAt: Date;
 }
 
-
 export default function RoutinesPage() {
-const [selectedRoutine, setSelectedRoutine] = useState<{
-  id: number
-  activity: string
-  time: string
-  duration: number
-  order: number | null
-  completed: boolean
-  userId: number
-  createdAt: Date
-} | null>(null)
+  const [selectedRoutine, setSelectedRoutine] = useState<{
+    id: number;
+    activity: string;
+    time: string;
+    duration: number;
+    order: number | null;
+    completed: boolean;
+    userId: number;
+    createdAt: Date;
+  } | null>(null);
   const queryClient = useQueryClient();
   const formRef = useRef<HTMLFormElement>(null);
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ['routines'],
+    queryKey: ["routines"],
     queryFn: async () => {
       const result = await fetchRoutines();
       if (!result.success) throw new Error(result.message);
       return result.routine;
     },
+    staleTime:0
   });
 
   const { mutate: addRoutine, isPending: isAdding } = useMutation({
@@ -50,6 +53,7 @@ const [selectedRoutine, setSelectedRoutine] = useState<{
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["routines"] });
       formRef.current?.reset();
+      toast.success('Routine Added!')
     },
   });
   const { mutate: editRoutine, isPending: isEditing } = useMutation({
@@ -57,24 +61,27 @@ const [selectedRoutine, setSelectedRoutine] = useState<{
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["routines"] });
       formRef.current?.reset();
-      setSelectedRoutine(null)
+      setSelectedRoutine(null);
+            toast.success('Routine Updated!')
+
     },
   });
   const { mutate: removeRoutine, isPending: isDeleting } = useMutation({
     mutationFn: deleteRoutines,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["routines"] });
-            formRef.current?.reset();
-      setSelectedRoutine(null)
+      formRef.current?.reset();
+      setSelectedRoutine(null);
+                  toast.success('Routine deleted!')
 
     },
   });
-const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
     if (selectedRoutine) {
-     formData.append('id', String(selectedRoutine.id))
+      formData.append("id", String(selectedRoutine.id));
       editRoutine(formData);
     } else {
       addRoutine(formData);
@@ -86,8 +93,8 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     const date = new Date(0, 0, 0, parseInt(hours), parseInt(minutes));
     return format(date, "h:mm a");
   };
-const handleEdit = (routine: Routine) => {    setSelectedRoutine(routine);
-    console.log(routine, "Routine after clicking on edit");
+  const handleEdit = (routine: Routine) => {
+    setSelectedRoutine(routine);
   };
 
   return (
@@ -103,9 +110,13 @@ const handleEdit = (routine: Routine) => {    setSelectedRoutine(routine);
           <h2 className="text-lg font-light text-white mb-6">Your Routines</h2>
 
           <div className="space-y-3">
-            {isLoading && <div>Loading...</div>}
+            {isLoading && (
+              <div>
+              {[1,2,3].map((index)=> <RoutineSkeleton key={index}/> ) }
+              </div>
+            )}
             {error && <div>Error loading routines</div>}
-            {data?.map((routine:Routine) => (
+            {data?.map((routine: Routine) => (
               <div
                 key={routine.id}
                 className="bg-white/3 border border-white/8 rounded-xl p-4 flex items-center justify-between hover:bg-white/5 transition-colors"
@@ -133,6 +144,7 @@ const handleEdit = (routine: Routine) => {    setSelectedRoutine(routine);
                 </div>
               </div>
             ))}
+            {data && (data.length ==0 && <p className="text-zinc-500 text-sm">No Rotines Added Yet</p> )}
           </div>
         </div>
 

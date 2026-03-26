@@ -31,7 +31,7 @@ export default function SignUpPage() {
         </div>
 
         {/* Card */}
-        <div className="bg-white/[0.03] border border-white/[0.08] rounded-2xl p-8 backdrop-blur-sm">
+        <div className="bg-white/[0.03] border border-white/8 rounded-2xl p-8 backdrop-blur-sm">
           <h2 className="text-lg font-light text-white mb-1">Create an account</h2>
           <p className="text-zinc-500 text-sm mb-8">Start your focused journey</p>
 
@@ -49,7 +49,7 @@ export default function SignUpPage() {
                 name="email"
                 placeholder="you@example.com"
                 required
-                className="w-full px-4 py-3 bg-white/[0.05] border border-white/[0.08] rounded-xl text-white placeholder-zinc-600 text-sm focus:outline-none focus:border-indigo-500/50 focus:bg-white/[0.07] transition-all"
+                className="w-full px-4 py-3 bg-white/5 border border-white/8 rounded-xl text-white placeholder-zinc-600 text-sm focus:outline-none focus:border-indigo-500/50 focus:bg-white/[0.07] transition-all"
               />
             </div>
 
@@ -63,7 +63,7 @@ export default function SignUpPage() {
                 name="password"
                 placeholder="••••••••"
                 required
-                className="w-full px-4 py-3 bg-white/[0.05] border border-white/[0.08] rounded-xl text-white placeholder-zinc-600 text-sm focus:outline-none focus:border-indigo-500/50 focus:bg-white/[0.07] transition-all"
+                className="w-full px-4 py-3 bg-white/5 border border-white/8 rounded-xl text-white placeholder-zinc-600 text-sm focus:outline-none focus:border-indigo-500/50 focus:bg-white/[0.07] transition-all"
               />
             </div>
 
