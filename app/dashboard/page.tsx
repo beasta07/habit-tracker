@@ -1,9 +1,10 @@
 "use client";
 
-import Timer from "./components/Hero/Timer";
-import RoutinesPreview from "./components/Hero/RoutinesPreview";
-import TasksPreview from "./components/Hero/TasksPreview";
-import JournalPreview from "./components/Hero/JournalPreview";
+import JournalPreview from "../components/Hero/JournalPreview";
+import RoutinesPreview from "../components/Hero/RoutinesPreview";
+import TasksPreview from "../components/Hero/TasksPreview";
+import Timer from "../components/Hero/Timer";
+
 
 
 const page = () => {

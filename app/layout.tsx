@@ -4,7 +4,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import StoreProvider from "./StoreProvider";
 import { QueryProvider } from "@/providers/QueryProvider";
-import Navbar from "./components/Navbar";
 import { Toaster } from 'react-hot-toast'
 
 const geistSans = Geist({
@@ -35,7 +34,6 @@ export default function RootLayout({
 
       <StoreProvider>
         <QueryProvider>
-        <Navbar/>
         {children}
         </QueryProvider>
 

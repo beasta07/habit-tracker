@@ -19,7 +19,7 @@ export default function RoutinesPreview() {
   });
   const filteredData = data?.slice(0,3)
   if (isPending) return <TaskRoutineSkeletonRow title="Today's Routine" subtitle="Daily habits" />
-    if (!data || data.length === 0) return <div className="text-zinc-500">No Routines added </div>
+    if (!data || data.length === 0) return <div className="text-zinc-500 w-full">No Routines added </div>
          
   if (error) return <div>Error loading tasks</div>;
   

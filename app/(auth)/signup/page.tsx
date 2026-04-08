@@ -31,7 +31,7 @@ export default function SignUpPage() {
         </div>
 
         {/* Card */}
-        <div className="bg-white/[0.03] border border-white/8 rounded-2xl p-8 backdrop-blur-sm">
+        <div className="bg-white/3 border border-white/8 rounded-2xl p-8 backdrop-blur-sm">
           <h2 className="text-lg font-light text-white mb-1">Create an account</h2>
           <p className="text-zinc-500 text-sm mb-8">Start your focused journey</p>
 

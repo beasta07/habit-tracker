@@ -46,7 +46,7 @@ export default function JournalPreviewSkeleton() {
           <div className="flex-1 min-w-0">
             <p className="text-sm text-zinc-200 truncate">
              
-              <div className="h-4 w-10 bg-gray-700 shadow-sm  animate-pulse" />
+              <span className="h-4 w-10 bg-gray-700 shadow-sm  animate-pulse" />
             </p>
             <p className="text-xs text-zinc-500 mt-1">
               <div className="h-4 w-4 bg-gray-700 shadow-sm  animate-pulse" />

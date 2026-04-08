@@ -24,10 +24,10 @@ export default function TasksPreview() {
       queryClient.invalidateQueries({queryKey:['tasks']})}
   })
 
-const filteredData = data?.filter(task => task.priority === 'HIGH' && task.completed === false)
+const filteredData = data?.filter(task => task.completed === false)
 if (error) return <div className="text-zinc-500">Error loading tasks</div>
 if (isPending) return <TaskRoutineSkeletonRow title='Tasks' subtitle='Your to-dos'/>
-if (!data || data.length === 0) return <div className="text-zinc-500">No tasks yet</div>
+if (!data || data.length === 0) return <div className="text-zinc-500 w-full">No tasks yet</div>
 
   return (
     <div className="bg-white/3 border w-full border-white/8 rounded-2xl p-8 backdrop-blur-sm">
